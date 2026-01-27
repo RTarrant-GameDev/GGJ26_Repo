@@ -18,6 +18,21 @@ public:
 	
 	/** Constructor */
 	AGGJ26_ProjectGameMode();
+
+public:
+
+	int32 GetMaskCount();
+
+	void SetMaskCount();
+
+	void UpdateMaskCount();
+
+public:
+	UPROPERTY(VisibleAnywhere)
+	int32 MaskCount = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 MaskTargetNumber;
 };
 
 
