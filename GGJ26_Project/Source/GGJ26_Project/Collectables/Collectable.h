@@ -17,7 +17,7 @@ public:
 	ACollectable();
 
 public:	
-	virtual void PostInitializeComponents() override;
+	void PostInitializeComponents();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Collision", meta = (AllowPrivateAccess = "true"))
 	UBoxComponent* Collider;

@@ -9,6 +9,8 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class UAbilitySystemComponent;
+class UGameplayAbility;
 class UInputAction;
 struct FInputActionValue;
 
@@ -30,7 +32,15 @@ class AGGJ26_ProjectCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	/** Abilities */
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UAbilitySystemComponent* AbilitySystem;
 	
+protected:
+	virtual void BeginPlay() override;
+
 protected:
 
 	/** Jump Input Action */
@@ -48,6 +58,10 @@ protected:
 	/** Mouse Look Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
+
+	/** Ability 1 Input Action */
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* Ability1Action;
 
 public:
 
@@ -68,6 +82,12 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void ActivateAbilitySlot1();
+	UFUNCTION(BlueprintImplementableEvent)
+	void ActivateAbilitySlot2();
+	UFUNCTION(BlueprintImplementableEvent)
+	void ActivateAbilitySlot3();
 
 	/** Handles move inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")

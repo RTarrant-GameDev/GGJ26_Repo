@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+ // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "GGJ26_ProjectCharacter.h"
 #include "Engine/LocalPlayer.h"
@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "AbilitySystemComponent.h"
 #include "GGJ26_Project.h"
 
 AGGJ26_ProjectCharacter::AGGJ26_ProjectCharacter()
@@ -46,8 +47,15 @@ AGGJ26_ProjectCharacter::AGGJ26_ProjectCharacter()
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
 
+	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("Ability System"));
+
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+}
+
+void AGGJ26_ProjectCharacter::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void AGGJ26_ProjectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -65,10 +73,11 @@ void AGGJ26_ProjectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AGGJ26_ProjectCharacter::Look);
-	}
-	else
-	{
-		UE_LOG(LogGGJ26_Project, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+
+#pragma region "Abilities"
+		//Ability 1
+		EnhancedInputComponent->BindAction(Ability1Action, ETriggerEvent::Triggered, this, &AGGJ26_ProjectCharacter::ActivateAbilitySlot1);
+#pragma endregion
 	}
 }
 
