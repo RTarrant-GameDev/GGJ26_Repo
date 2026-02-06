@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "GameplayAbilitySpecHandle.h"
 #include "GGJ26_ProjectCharacter.generated.h"
 
 class USpringArmComponent;
@@ -63,10 +64,17 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* Ability1Action;
 
+	/** Ability 2 Input Action */
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* Ability2Action;
+
 public:
 
 	/** Constructor */
 	AGGJ26_ProjectCharacter();	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Abilities|Limits")
+	TMap<FGameplayAbilitySpecHandle, int32> AbilityUseCounts;
 
 protected:
 
@@ -82,12 +90,10 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 public:
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ActivateAbilitySlot1();
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ActivateAbilitySlot2();
-	UFUNCTION(BlueprintImplementableEvent)
-	void ActivateAbilitySlot3();
 
 	/** Handles move inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
@@ -104,7 +110,6 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
-
 public:
 
 	/** Returns CameraBoom subobject **/

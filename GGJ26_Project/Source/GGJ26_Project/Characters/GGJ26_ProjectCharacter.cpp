@@ -77,6 +77,9 @@ void AGGJ26_ProjectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 #pragma region "Abilities"
 		//Ability 1
 		EnhancedInputComponent->BindAction(Ability1Action, ETriggerEvent::Triggered, this, &AGGJ26_ProjectCharacter::ActivateAbilitySlot1);
+
+		//Ability 2
+		EnhancedInputComponent->BindAction(Ability2Action, ETriggerEvent::Triggered, this, &AGGJ26_ProjectCharacter::ActivateAbilitySlot2);
 #pragma endregion
 	}
 }
@@ -103,15 +106,21 @@ void AGGJ26_ProjectCharacter::DoMove(float Right, float Forward)
 {
 	if (GetController() != nullptr)
 	{
+		const FVector Up = -(GetCharacterMovement()->GetGravityDirection());
 		// find out which way is forward
 		const FRotator Rotation = GetController()->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		const FVector ViewForward = Rotation.Vector();
 
-		// get forward vector
-		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		FVector ForwardDirection = ViewForward - Up * FVector::DotProduct(ViewForward, Up);
 
-		// get right vector 
-		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		if (!ForwardDirection.Normalize()) {
+			const FVector ActorFwd = GetActorForwardVector();
+			ForwardDirection = ActorFwd - Up * FVector::DotProduct(ActorFwd, Up);
+			ForwardDirection.Normalize();
+		}
+
+		FVector RightDirection = FVector::CrossProduct(Up, ForwardDirection);
+		RightDirection.Normalize();
 
 		// add movement 
 		AddMovementInput(ForwardDirection, Forward);

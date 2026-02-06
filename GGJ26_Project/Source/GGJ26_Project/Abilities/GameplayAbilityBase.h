@@ -14,20 +14,22 @@ class GGJ26_PROJECT_API UGameplayAbilityBase : public UGameplayAbility
 {
 	GENERATED_BODY()
 
+public:
+	UGameplayAbilityBase();
+
 protected:
 	UPROPERTY(EditAnywhere, Category = "Ability Name")
 	FString AbilityName;
 
 	UPROPERTY(EditAnywhere, Category = "Limits")
-	int32 AbilityLimit;
+	int32 AbilityLimit = 0;
 
-	UPROPERTY(EditAnywhere, Category = "Limits")
-	int32 AbilityUseCount;
 
 public:
-	/** For UI (and internal use): returns false if limit reached */
-	UFUNCTION(BlueprintCallable, Category = "Limits")
-	bool CheckAbilityUsable() const;
+	bool CheckAbilityUsable(
+		const FGameplayAbilitySpecHandle Handle, 
+		const FGameplayAbilityActorInfo* ActorInfo
+	) const;
 
 	virtual bool CanActivateAbility(
 		const FGameplayAbilitySpecHandle Handle,
@@ -43,4 +45,8 @@ protected:
 		const FGameplayAbilityActorInfo* ActorInfo,
 		const FGameplayAbilityActivationInfo ActivationInfo,
 		FGameplayTagContainer* OptionalRelevantTags = nullptr) override;
+
+private:
+	int32 GetUseCountForHandle(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo) const;
+	void IncrementUseCountForHandle(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo) const;
 };
