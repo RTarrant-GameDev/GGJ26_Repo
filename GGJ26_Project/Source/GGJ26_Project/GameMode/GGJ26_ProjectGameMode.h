@@ -20,12 +20,16 @@ public:
 	AGGJ26_ProjectGameMode();
 
 public:
+	UFUNCTION(BlueprintCallable)
+	FString GetMaskCountTotalText();
 
 	int32 GetMaskCount();
 
 	void SetMaskCount();
 
 	void UpdateMaskCount();
+
+	void EndLevel();
 
 public:
 	UPROPERTY(VisibleAnywhere)

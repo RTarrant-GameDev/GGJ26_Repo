@@ -68,6 +68,10 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	UInputAction* Ability2Action;
 
+	/** Ability 3 Input Action */
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* Ability3Action;
+
 public:
 
 	/** Constructor */
@@ -94,6 +98,8 @@ public:
 	void ActivateAbilitySlot1();
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void ActivateAbilitySlot2();
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void ActivateAbilitySlot3();
 
 	/** Handles move inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")

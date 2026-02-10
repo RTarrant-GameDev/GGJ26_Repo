@@ -80,6 +80,9 @@ void AGGJ26_ProjectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerI
 
 		//Ability 2
 		EnhancedInputComponent->BindAction(Ability2Action, ETriggerEvent::Triggered, this, &AGGJ26_ProjectCharacter::ActivateAbilitySlot2);
+
+		//Ability 3
+		EnhancedInputComponent->BindAction(Ability3Action, ETriggerEvent::Triggered, this, &AGGJ26_ProjectCharacter::ActivateAbilitySlot3);
 #pragma endregion
 	}
 }
